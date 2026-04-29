@@ -531,17 +531,12 @@ export default function App() {
   const LINE_URL = "https://line.me/R/ti/p/~xiaoxiao8886";
 
   const openLineService = () => {
-    if (!user) {
-      show(t.lineNeedLogin || t.needLogin);
-      setPage("login");
-      return;
-    }
+  const ok = window.confirm(t.lineConfirm || "即将跳转到 LINE 在线客服聊天，是否继续？");
 
-    const ok = window.confirm(t.lineConfirm || "即将跳转到 LINE 在线客服聊天，是否继续？");
-    if (ok) {
-      window.open(LINE_URL, "_blank", "noopener,noreferrer");
-    }
-  };
+  if (ok) {
+    window.open(LINE_URL, "_blank", "noopener,noreferrer");
+  }
+};
 
   const money = (value) => {
     if (currency === "KRW") return `₩${Math.round(value * 170).toLocaleString()}`;
