@@ -993,7 +993,7 @@ function TopBar({
           </>
         )}
 
-        <span onClick={() => protectedClick(() => setPage("service"))}>{t.help}</span>
+        <span onClick={openLineService}>{t.help}</span>
         <span style={s.blue} onClick={() => protectedClick(() => setPage("cart"))}>
           🛒 {t.cart} ({cart.reduce((n, x) => n + x.qty, 0)})
         </span>
