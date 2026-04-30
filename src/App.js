@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 const L = {
   zh: {
@@ -524,6 +524,88 @@ function makeProducts() {
 }
 
 const allProducts = makeProducts();
+
+function ResponsiveStyle() {
+  useEffect(() => {
+    let viewport = document.querySelector('meta[name="viewport"]');
+    if (!viewport) {
+      viewport = document.createElement('meta');
+      viewport.setAttribute('name', 'viewport');
+      document.head.appendChild(viewport);
+    }
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+  }, []);
+
+  return (
+    <style>{`
+      * { box-sizing: border-box; }
+      img, iframe { max-width: 100%; }
+      button, input { font-family: inherit; }
+
+      @media (max-width: 900px) {
+        body { margin: 0; overflow-x: hidden; }
+        .gm-top { height: auto !important; padding: 8px 12px !important; flex-direction: column !important; gap: 8px !important; align-items: stretch !important; }
+        .gm-top > div:first-child { display: flex !important; gap: 6px !important; justify-content: center !important; flex-wrap: wrap !important; }
+        .gm-top-links { justify-content: center !important; flex-wrap: wrap !important; gap: 10px !important; font-size: 12px !important; }
+        .gm-header { display: flex !important; flex-direction: column !important; padding: 18px 12px !important; gap: 14px !important; text-align: center !important; }
+        .gm-header > div { width: 100% !important; }
+        .gm-search-box { width: 100% !important; max-width: 100% !important; }
+        .gm-keywords { overflow-x: auto !important; white-space: nowrap !important; padding-bottom: 6px !important; justify-content: flex-start !important; }
+        .gm-notice { display: none !important; }
+        .gm-nav-in { width: 100% !important; height: auto !important; grid-template-columns: repeat(2, 1fr) !important; font-size: 13px !important; }
+        .gm-nav-in > div { height: 40px !important; line-height: 40px !important; border-bottom: 1px solid rgba(255,255,255,.15) !important; }
+        .gm-main { width: 94% !important; display: block !important; padding-top: 14px !important; }
+        .gm-side { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 6px 12px !important; margin-bottom: 16px !important; border: 1px solid #eee !important; border-radius: 12px !important; padding: 10px !important; }
+        .gm-hero { height: auto !important; min-height: 150px !important; padding: 24px !important; border-radius: 14px !important; }
+        .gm-title { font-size: 24px !important; }
+        .gm-product-grid, .gm-rank-grid, .gm-big-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 14px !important; }
+        .gm-card h3 { font-size: 15px !important; min-height: 38px !important; }
+        .gm-card p { font-size: 12px !important; }
+        .gm-card button { padding: 7px 8px !important; margin-top: 4px !important; font-size: 12px !important; }
+        .gm-img { height: 135px !important; }
+        .gm-big-img { height: 180px !important; }
+        .gm-float { display: none !important; }
+        .gm-container, .gm-special-wrap, .gm-member-page, .gm-event-coupon-section { width: 94% !important; margin-left: auto !important; margin-right: auto !important; }
+        .gm-detail { flex-direction: column !important; padding: 18px !important; gap: 20px !important; }
+        .gm-detail-img { width: 100% !important; height: auto !important; max-height: 380px !important; }
+        .gm-login-area { width: 94% !important; grid-template-columns: 1fr !important; margin: 28px auto 46px !important; }
+        .gm-login-card, .gm-join-card { height: auto !important; min-height: 260px !important; }
+        .gm-login-body, .gm-join-body { padding: 32px 22px !important; }
+        .gm-login-input-row { grid-template-columns: 1fr !important; }
+        .gm-login-button { height: 42px !important; }
+        .gm-register-area { width: 94% !important; margin: 28px auto 46px !important; }
+        .gm-register-box { padding: 24px 18px !important; }
+        .gm-verify-row { grid-template-columns: 1fr !important; gap: 10px !important; }
+        .gm-verify-btn { height: 42px !important; }
+        .gm-footer-links { height: auto !important; min-height: 52px !important; padding: 12px 10px !important; gap: 18px !important; flex-wrap: wrap !important; font-size: 12px !important; }
+        .gm-footer-info { width: 94% !important; grid-template-columns: 1fr !important; gap: 16px !important; }
+        .gm-map-box iframe { height: 190px !important; }
+        .gm-cart-row { flex-wrap: wrap !important; }
+        .gm-thumb { width: 58px !important; height: 58px !important; }
+        .gm-login-modal { width: 92% !important; padding: 24px 18px !important; }
+        .gm-deal-cats { height: auto !important; padding: 12px !important; gap: 12px !important; flex-wrap: wrap !important; font-size: 13px !important; }
+        .gm-super-text { font-size: 42px !important; }
+        .gm-deal-hero { height: 170px !important; }
+        .gm-best-tabs { margin-left: 0 !important; grid-template-columns: 1fr !important; height: auto !important; line-height: 42px !important; }
+        .gm-icon-line { grid-template-columns: repeat(3, 1fr) !important; height: auto !important; row-gap: 8px !important; padding: 10px 0 !important; }
+        .gm-icon-active { height: 70px !important; }
+        .gm-event-hero-title { font-size: 36px !important; }
+        .gm-event-coupon-list { flex-direction: column !important; padding: 22px !important; }
+        .gm-coupon-big { width: 100% !important; }
+      }
+
+      @media (max-width: 480px) {
+        .gm-product-grid, .gm-rank-grid, .gm-big-product-grid { grid-template-columns: 1fr !important; }
+        .gm-side { grid-template-columns: 1fr !important; }
+        .gm-logo { font-size: 36px !important; }
+        .gm-title { font-size: 22px !important; }
+        .gm-nav-in { grid-template-columns: 1fr !important; }
+      }
+    `}</style>
+  );
+}
+
+
 const REGISTER_VERIFY_CODE = "746291";
 
 export default function App() {
@@ -781,7 +863,8 @@ const openLineService = () => {
   const dealProducts = allProducts.filter((p) => p.price < 70).slice(0, 24);
 
   return (
-    <div style={s.page}>
+    <div className="gm-page" style={s.page}>
+      <ResponsiveStyle />
       {toast && <div style={s.toast}>{toast}</div>}
 
       {loginModalOpen && (
@@ -837,8 +920,8 @@ const openLineService = () => {
       )}
 
       {page === "home" && (
-        <main style={s.main}>
-          <aside>
+        <main className="gm-main" style={s.main}>
+          <aside className="gm-side">
             {cats.map((c) => (
               <div
                 key={c.key}
@@ -855,8 +938,8 @@ const openLineService = () => {
             ))}
           </aside>
 
-          <section>
-            <div style={s.hero}>
+          <section className="gm-content">
+            <div className="gm-hero" style={s.hero}>
               <div>
                 <h2>{t.festival}</h2>
                 <p>{t.festivalText}</p>
@@ -866,12 +949,12 @@ const openLineService = () => {
               </div>
             </div>
 
-            <h1 style={s.title}>{title}</h1>
+            <h1 className="gm-title" style={s.title}>{title}</h1>
             <p style={s.sub}>
               {filtered.length.toLocaleString()} {t.count} · {currentPage} / {totalPages}
             </p>
 
-            <div style={s.grid}>
+            <div className="gm-product-grid" style={s.grid}>
               {pageProducts.map((p) => (
                 <Product
                   key={p.id}
@@ -946,11 +1029,11 @@ const openLineService = () => {
 
       {page === "login" && (
         <>
-          <div style={s.loginArea}>
-            <div style={s.loginCard}>
+          <div className="gm-login-area" style={s.loginArea}>
+            <div className="gm-login-card" style={s.loginCard}>
               <h1>{t.login}</h1>
-              <div style={s.loginBody}>
-                <div style={s.loginInputRow}>
+              <div className="gm-login-body" style={s.loginBody}>
+                <div className="gm-login-input-row" style={s.loginInputRow}>
                   <div>
                     <input
                       style={s.loginInput}
@@ -972,7 +1055,7 @@ const openLineService = () => {
                       onKeyDown={(e) => e.key === "Enter" && submitLogin()}
                     />
                   </div>
-                  <button style={s.loginButton} onClick={submitLogin}>{t.login}</button>
+                  <button className="gm-login-button" style={s.loginButton} onClick={submitLogin}>{t.login}</button>
                 </div>
                 <div style={s.loginOptions}>
                   <label><input type="checkbox" /> {t.saveId}</label>
@@ -981,9 +1064,9 @@ const openLineService = () => {
               </div>
             </div>
 
-            <div style={s.joinCard}>
+            <div className="gm-join-card" style={s.joinCard}>
               <h1>{t.register}</h1>
-              <div style={s.joinBody}>
+              <div className="gm-join-body" style={s.joinBody}>
                 <p>{t.joinText}</p>
                 <button style={s.joinButton} onClick={() => setPage("register")}>{t.register}</button>
               </div>
@@ -1000,8 +1083,8 @@ const openLineService = () => {
 
       {page === "register" && (
         <>
-          <div style={s.registerArea}>
-            <div style={s.registerBox}>
+          <div className="gm-register-area" style={s.registerArea}>
+            <div className="gm-register-box" style={s.registerBox}>
               <h1>{t.register}</h1>
               <input
                 style={s.fullInput}
@@ -1028,7 +1111,7 @@ const openLineService = () => {
                 autoComplete="new-password"
               />
 
-              <div style={s.verifyRow}>
+              <div className="gm-verify-row" style={s.verifyRow}>
                 <input
                   style={{ ...s.fullInput, margin: 0 }}
                   placeholder={t.verifyCode}
@@ -1037,7 +1120,7 @@ const openLineService = () => {
                   maxLength={6}
                   autoComplete="off"
                 />
-                <button style={s.verifyBtn} onClick={sendRegisterCode}>
+                <button className="gm-verify-btn" style={s.verifyBtn} onClick={sendRegisterCode}>
                   {t.sendVerifyCode}
                 </button>
               </div>
@@ -1064,10 +1147,10 @@ const openLineService = () => {
       )}
 
       {page === "detail" && (
-        <div style={s.container}>
+        <div className="gm-container" style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
-          <div style={s.detail}>
-            <img src={selected.image} alt="" style={s.detailImg} />
+          <div className="gm-detail" style={s.detail}>
+            <img className="gm-detail-img" src={selected.image} alt="" style={s.detailImg} />
             <div>
               <h1>{selected.name}</h1>
               <p>{selected.desc}</p>
@@ -1090,7 +1173,7 @@ const openLineService = () => {
       )}
 
       {page === "cart" && (
-        <div style={s.container}>
+        <div className="gm-container" style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
           <h1>{t.cart}</h1>
           <div style={s.panel}>
@@ -1099,7 +1182,7 @@ const openLineService = () => {
             ) : (
               cart.map((x) => (
                 <div key={x.id} style={s.cartRow}>
-                  <img src={x.image} alt="" style={s.thumb} />
+                  <img className="gm-thumb" src={x.image} alt="" style={s.thumb} />
                   <div style={{ flex: 1 }}>
                     <b>{x.name}</b>
                     <p>{money(x.price)} × {x.qty}</p>
@@ -1117,13 +1200,13 @@ const openLineService = () => {
       )}
 
       {page === "wishlist" && (
-        <div style={s.container}>
+        <div className="gm-container" style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
           <h1>{t.wish}</h1>
           {wish.length === 0 ? (
             <div style={s.panel}>{t.emptyWish}</div>
           ) : (
-            <div style={s.grid}>
+            <div className="gm-product-grid" style={s.grid}>
               {wish.map((p) => (
                 <Product key={p.id} p={p} t={t} money={money} onDetail={() => openDetail(p)} onCart={() => addCart(p)} onWish={() => addWish(p)} />
               ))}
@@ -1133,7 +1216,7 @@ const openLineService = () => {
       )}
 
       {page === "orders" && (
-        <div style={s.container}>
+        <div className="gm-container" style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
           <h1>{t.orders}</h1>
           <div style={s.panel}>
@@ -1154,7 +1237,7 @@ const openLineService = () => {
       )}
 
       {page === "service" && (
-        <div style={s.container}>
+        <div className="gm-container" style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
           <h1>{t.service}</h1>
           <div style={s.panel}>
@@ -1168,7 +1251,7 @@ const openLineService = () => {
       )}
 
       {page === "map" && (
-        <div style={s.container}>
+        <div className="gm-container" style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
           <h1>{t.map}</h1>
           <Footer
@@ -1189,7 +1272,7 @@ function LoginModal({ t, loginId, setLoginId, loginPw, setLoginPw, submitLogin, 
 
   return (
     <div style={s.loginOverlay} onClick={close}>
-      <div style={s.loginModal} onClick={(e) => e.stopPropagation()}>
+      <div className="gm-login-modal" style={s.loginModal} onClick={(e) => e.stopPropagation()}>
         <button style={s.modalClose} onClick={close}>×</button>
 
         <div style={s.modalLogo}>
@@ -1283,14 +1366,14 @@ function TopBar({
     currency === "KRW" ? "₩ KRW" : currency === "USD" ? "$ USD" : "HK$ HKD";
 
   return (
-    <div style={s.top}>
+    <div className="gm-top" style={s.top}>
       <div>
         <button onClick={() => setLang("zh")}>中文</button>
         <button onClick={() => setLang("en")}>English</button>
         <button onClick={() => setLang("ko")}>한국어</button>
       </div>
 
-      <div style={s.topLinks}>
+      <div className="gm-top-links" style={s.topLinks}>
         {user ? (
           <>
             <span style={s.blue}>Hi, {user.id}</span>
@@ -1338,9 +1421,9 @@ function Header({ lang, t, search, setSearch, setCurrentPage, changeCat, setPage
   };
 
   return (
-    <header style={s.header}>
+    <header className="gm-header" style={s.header}>
       <div style={{ cursor: "pointer" }} onClick={() => changeCat("All")}>
-        <div style={s.logo}>
+        <div className="gm-logo" style={s.logo}>
           <span style={{ color: "#00b050" }}>G</span>
           <span style={{ color: "#0077ff" }}>market</span>
         </div>
@@ -1348,7 +1431,7 @@ function Header({ lang, t, search, setSearch, setCurrentPage, changeCat, setPage
       </div>
 
       <div>
-        <div style={s.searchBox}>
+        <div className="gm-search-box" style={s.searchBox}>
           <input
             style={s.search}
             value={search}
@@ -1361,14 +1444,14 @@ function Header({ lang, t, search, setSearch, setCurrentPage, changeCat, setPage
           />
           <button style={s.searchBtn}>🔍</button>
         </div>
-        <div style={s.keywords}>
+        <div className="gm-keywords" style={s.keywords}>
           {["IVE LP", "SKINFOOD", "Aespa Lemonade", "COCOBLANC", "CARAZ", "30% OFF"].map((x) => (
             <span key={x} onClick={() => keywordClick(x.replace("30% OFF", ""))}>{x}</span>
           ))}
         </div>
       </div>
 
-      <div style={s.notice}>
+      <div className="gm-notice" style={s.notice}>
         <b>{t.notice}</b>
         <p>{t.noticeText}</p>
         <span style={s.link} onClick={() => setPage("coupon")}>{t.seeMore} ⓘ</span>
@@ -1384,8 +1467,8 @@ function Nav({ t, page, setPage, changeCat, protectedClick }) {
   });
 
   return (
-    <nav style={s.nav}>
-      <div style={s.navIn}>
+    <nav className="gm-nav" style={s.nav}>
+      <div className="gm-nav-in" style={s.navIn}>
         <div onClick={() => changeCat("All")} style={s.catTab}>{t.all} ≡</div>
         <div onClick={() => protectedClick(() => setPage("hot"))} style={itemStyle("hot")}>{t.hot}</div>
         <div onClick={() => protectedClick(() => setPage("deal"))} style={itemStyle("deal")}>{t.deal}</div>
@@ -1402,7 +1485,7 @@ function SpecialLayout({ children }) {
 
 function HotPage({ t, cats, catName, products, money, openDetail, addCart, addWish, protectedClick, changeCat }) {
   return (
-    <div style={s.specialWrap}>
+    <div className="gm-special-wrap" style={s.specialWrap}>
       <h1 style={s.hotTitle}>{t.bestTitle}</h1>
 
       <div style={s.bestTabs}>
@@ -1421,7 +1504,7 @@ function HotPage({ t, cats, catName, products, money, openDetail, addCart, addWi
         ))}
       </div>
 
-      <div style={s.rankGrid}>
+      <div className="gm-rank-grid" style={s.rankGrid}>
         {products.map((p, i) => (
           <Product
             key={p.id}
@@ -1442,11 +1525,11 @@ function HotPage({ t, cats, catName, products, money, openDetail, addCart, addWi
 function DealPage({ t, products, money, openDetail, addCart, addWish, protectedClick, changeCat }) {
   return (
     <div>
-      <div style={s.dealHero}>
-        <div style={s.superText}>{t.superBanner}<span>⚡</span></div>
+      <div className="gm-deal-hero" style={s.dealHero}>
+        <div className="gm-super-text" style={s.superText}>{t.superBanner}<span>⚡</span></div>
       </div>
 
-      <div style={s.dealCats}>
+      <div className="gm-deal-cats" style={s.dealCats}>
         <div style={s.dealCatActive} onClick={() => protectedClick(() => setTimeout(() => window.scrollTo(0, 360), 0))}>◎ {t.weeklyDeal}</div>
         <div onClick={() => protectedClick(() => changeCat("clothing"))}>👕 {t.clothing}</div>
         <div onClick={() => protectedClick(() => changeCat("beauty"))}>🧴 {t.beauty}</div>
@@ -1456,8 +1539,8 @@ function DealPage({ t, products, money, openDetail, addCart, addWish, protectedC
         <div onClick={() => protectedClick(() => changeCat("electronics"))}>📱 {t.digital}</div>
       </div>
 
-      <div style={s.specialWrap}>
-        <div style={s.bigProductGrid}>
+      <div className="gm-special-wrap" style={s.specialWrap}>
+        <div className="gm-big-product-grid" style={s.bigProductGrid}>
           {products.map((p) => (
             <Product
               key={p.id}
@@ -1478,7 +1561,7 @@ function DealPage({ t, products, money, openDetail, addCart, addWish, protectedC
 
 function MemberCouponPage({ t, protectedClick, show }) {
   return (
-    <div style={s.memberPage}>
+    <div className="gm-member-page" style={s.memberPage}>
       <h2 style={s.memberMainTitle}>{t.memberTitle}</h2>
 
       <section style={s.memberOfficialBox}>
@@ -1539,7 +1622,7 @@ function EventCouponPage({ t, protectedClick, show, setPage }) {
 
         <div style={s.eventHeroContent}>
           <div style={s.eventLogoText}>GMARKET</div>
-          <h1 style={s.eventHeroTitle}>{t.eventTitle}</h1>
+          <h1 className="gm-event-hero-title" style={s.eventHeroTitle}>{t.eventTitle}</h1>
           <p style={s.eventHeroSub}>{t.eventSubTitle}</p>
 
           <div style={s.eventOfficialButtons}>
@@ -1549,11 +1632,11 @@ function EventCouponPage({ t, protectedClick, show, setPage }) {
         </div>
       </section>
 
-      <section style={s.eventCouponSection}>
+      <section className="gm-event-coupon-section" style={s.eventCouponSection}>
         <h1 style={s.eventCouponTitle}>{t.eventCouponTitle}</h1>
         <p style={s.eventCouponSub}>{t.couponTip}</p>
 
-        <div style={s.eventCouponListOfficial}>
+        <div className="gm-event-coupon-list" style={s.eventCouponListOfficial}>
           <CouponBigOfficial text="9折" limit={`${t.maxDiscount} ₩3,000`} t={t} protectedClick={protectedClick} show={show} />
           <CouponBigOfficial text="10%" limit={`${t.maxDiscount} ₩10,000`} t={t} protectedClick={protectedClick} show={show} />
           <CouponBigOfficial text="₩3,000" limit={t.availableNow} t={t} protectedClick={protectedClick} show={show} />
@@ -1579,7 +1662,7 @@ function CouponCardOfficial({ text, sub }) {
 
 function CouponBigOfficial({ text, limit, t, protectedClick, show }) {
   return (
-    <div style={s.couponBigOfficial}>
+    <div className="gm-coupon-big" style={s.couponBigOfficial}>
       <div style={s.bigCouponCutLeft}></div>
       <div style={s.bigCouponCutRight}></div>
 
@@ -1596,7 +1679,7 @@ function CouponBigOfficial({ text, limit, t, protectedClick, show }) {
 
 function FloatingBox({ t, cart, setPage, protectedClick }) {
   return (
-    <aside style={s.float}>
+    <aside className="gm-float" style={s.float}>
       <div onClick={() => protectedClick(() => setPage("cart"))}>
         🛒<br />{t.cart}
         <b style={s.badge}>{cart.reduce((n, x) => n + x.qty, 0)}</b>
@@ -1611,9 +1694,9 @@ function Product({ p, t, money, onDetail, onCart, onWish, rank, big }) {
   const off = Math.max(1, Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100));
 
   return (
-    <div style={big ? s.bigCard : s.card}>
+    <div className="gm-card" style={big ? s.bigCard : s.card}>
       {rank && <div style={s.rankNo}>{rank}</div>}
-      <img src={p.image} alt={p.name} style={big ? s.bigImg : s.img} onClick={onDetail} />
+      <img className={big ? "gm-big-img" : "gm-img"} src={p.image} alt={p.name} style={big ? s.bigImg : s.img} onClick={onDetail} />
       <h3>{p.name}</h3>
       <p style={s.desc}>{p.desc}</p>
       <div>
@@ -1636,8 +1719,8 @@ function Footer({ t, openLineService, protectedClick, setPage }) {
   };
 
   return (
-    <footer style={s.footer}>
-      <div style={s.footerLinks}>
+    <footer className="gm-footer" style={s.footer}>
+      <div className="gm-footer-links" style={s.footerLinks}>
         <span style={s.footerLink} onClick={() => footerGo("about")}>{t.about}</span>
         <span style={s.footerLink} onClick={() => footerGo("terms")}>{t.terms}</span>
         <span style={s.footerLink} onClick={() => footerGo("privacy")}>{t.privacy}</span>
@@ -1646,7 +1729,7 @@ function Footer({ t, openLineService, protectedClick, setPage }) {
         <span style={s.footerLink} onClick={() => footerGo("weibo")}>{t.weibo}</span>
       </div>
 
-      <div style={s.footerInfo}>
+      <div className="gm-footer-info" style={s.footerInfo}>
         <div style={s.customerBox}>
           <b>{t.service}</b>
           <p>{t.customerTime}</p>
@@ -1672,7 +1755,7 @@ function Footer({ t, openLineService, protectedClick, setPage }) {
           <p>{t.salesReport}: 香港旺角10630号</p>
         </div>
 
-        <div style={s.mapBox}>
+        <div className="gm-map-box" style={s.mapBox}>
           <iframe
             title="map"
             width="100%"
