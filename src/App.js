@@ -46,8 +46,12 @@ const L = {
     privacy: "隐私政策",
     siteMap: "网站地图",
     weibo: "微博",
+    or: "或",
+    kakao: "KakaoTalk",
+    gmarketKR: "Gmarket KR",
+    copyright: "版权所有",    
     customerTime: "工作时间：24小时（全年无休）",
-    onlineService: "在线客服咨询",
+    onlineService: "添加 LINE 联系客服",
     companyAddress: "香港旺角太子道西193号新世纪广场1座17楼",
     phone: "电话",
     fax: "传真",
@@ -103,6 +107,16 @@ const L = {
     guideOpened: "已打开优惠券使用说明",
     lineConfirm: "即将跳转到 LINE 在线客服聊天，是否继续？",
     lineNeedLogin: "请先登录后联系客服",
+    verifyCode: "验证码",
+    sendVerifyCode: "发送验证码",
+    verifyCodeSent: "验证码已发送",
+    pleaseSendCode: "请先发送验证码",
+    verifyCodeWrong: "验证码错误，请重新填写",
+    registerOk: "注册成功",
+    fillRegisterInfo: "请填写完整注册信息",
+    invalidEmail: "请输入正确的邮箱格式",
+    invalidPhone: "请输入正确的电话号码",
+    registerPhone: "手机号码（请添加国家区号，如 +82）",
   },
   en: {
     login: "Sign In",
@@ -149,8 +163,12 @@ const L = {
     privacy: "Privacy Policy",
     siteMap: "Site Map",
     weibo: "Weibo",
+    or: "OR",
+    kakao: "KakaoTalk",
+    gmarketKR: "Gmarket KR",
+    copyright: "All rights reserved.",
     customerTime: "Service hours: 24 hours",
-    onlineService: "Online customer service",
+    onlineService: "Add LINE Customer Service",
     companyAddress:
       "17/F, Tower 1, MOKO, 193 Prince Edward Road West, Mong Kok, Hong Kong",
     phone: "Phone",
@@ -208,6 +226,16 @@ const L = {
     guideOpened: "Coupon guide opened",
     lineConfirm: "You will be redirected to LINE customer service. Continue?",
     lineNeedLogin: "Please sign in before contacting customer service",
+    verifyCode: "Verification Code",
+    sendVerifyCode: "Send Code",
+    verifyCodeSent: "Verification code sent",
+    pleaseSendCode: "Please send the verification code first",
+    verifyCodeWrong: "Incorrect verification code",
+    registerOk: "Registration successful",
+    fillRegisterInfo: "Please complete the registration form",
+    invalidEmail: "Please enter a valid email address",
+    invalidPhone: "Please enter a valid phone number",
+    registerPhone: "Phone number with country code, e.g. +82",
   },
   ko: {
     login: "로그인",
@@ -254,8 +282,12 @@ const L = {
     privacy: "개인정보처리방침",
     siteMap: "사이트맵",
     weibo: "웨이보",
+    or: "또는",
+    kakao: "카카오톡",
+    gmarketKR: "Gmarket KR",
+    copyright: "모든 권리 보유.",
     customerTime: "운영시간: 24시간",
-    onlineService: "온라인 고객센터",
+    onlineService: "LINE 고객센터 추가",
     companyAddress:
       "홍콩 몽콕 프린스 에드워드 로드 웨스트 193 MOKO 타워1 17층",
     phone: "전화",
@@ -312,6 +344,16 @@ const L = {
     guideOpened: "쿠폰 안내를 열었습니다",
     lineConfirm: "LINE 고객센터 채팅으로 이동합니다. 계속하시겠습니까?",
     lineNeedLogin: "고객센터 문의 전 로그인이 필요합니다",
+    verifyCode: "인증번호",
+    sendVerifyCode: "인증번호 발송",
+    verifyCodeSent: "인증번호가 발송되었습니다",
+    pleaseSendCode: "먼저 인증번호를 발송해 주세요",
+    verifyCodeWrong: "인증번호가 올바르지 않습니다",
+    registerOk: "회원가입이 완료되었습니다",
+    fillRegisterInfo: "회원가입 정보를 모두 입력해 주세요",
+    invalidEmail: "올바른 이메일 형식을 입력해 주세요",
+    invalidPhone: "올바른 전화번호를 입력해 주세요",
+    registerPhone: "휴대폰 번호（국가번호 포함, 예: +82）",
   },
 };
 
@@ -482,6 +524,7 @@ function makeProducts() {
 }
 
 const allProducts = makeProducts();
+const REGISTER_VERIFY_CODE = "746291";
 
 export default function App() {
   const [lang, setLang] = useState("zh");
@@ -497,8 +540,14 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [loginId, setLoginId] = useState("");
   const [loginPw, setLoginPw] = useState("");
+  const [registerId, setRegisterId] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPw, setRegisterPw] = useState("");
+  const [registerCode, setRegisterCode] = useState("");
+  const [sentVerifyCode, setSentVerifyCode] = useState("");
   const [currency, setCurrency] = useState("KRW");
   const [currencyOpen, setCurrencyOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   const t = L[lang];
   const perPage = 24;
@@ -510,10 +559,16 @@ export default function App() {
     setTimeout(() => setToast(""), 1500);
   };
 
+  const openLoginModal = () => {
+    setLoginId("");
+    setLoginPw("");
+    show(t.needLogin);
+    setLoginModalOpen(true);
+  };
+
   const requireLogin = () => {
     if (!user) {
-      show(t.needLogin);
-      setPage("login");
+      openLoginModal();
       return false;
     }
     return true;
@@ -521,8 +576,7 @@ export default function App() {
 
   const protectedClick = (callback) => {
     if (!user) {
-      show(t.needLogin);
-      setPage("login");
+      openLoginModal();
       return;
     }
     callback();
@@ -530,7 +584,7 @@ export default function App() {
 
   const LINE_URL = "https://line.me/R/ti/p/~xiaoxiao8886";
 
-  const openLineService = () => {
+const openLineService = () => {
   const ok = window.confirm(t.lineConfirm || "即将跳转到 LINE 在线客服聊天，是否继续？");
 
   if (ok) {
@@ -596,7 +650,114 @@ export default function App() {
   const submitLogin = () => {
     if (!loginId || !loginPw) return show(t.needLogin);
     setUser({ id: loginId });
+    setLoginModalOpen(false);
+    if (page === "login") setPage("home");
+  };
+
+  const isValidEmail = (value) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+  };
+
+  const normalizePhone = (value) => {
+    return value.replace(/[\s\-()]/g, "").trim();
+  };
+
+  const isValidInternationalPhone = (value) => {
+    const phone = normalizePhone(value);
+
+    // 必须使用国际格式：+国家区号 + 当地号码
+    if (!/^\+[1-9]\d{8,14}$/.test(phone)) return false;
+
+    // 常用国家/地区精确格式校验；韩国和香港会被明确区分
+    const countryRules = [
+      // 韩国：+82 10xxxxxxxx，或常见座机/网络号码
+      /^\+82(10\d{8}|[2-6]\d{7,9}|70\d{8})$/,
+      // 香港：+852 后面 8 位；2/3常见座机，5/6/9常见手机，7/4也兼容部分号码段
+      /^\+852[2345679]\d{7}$/,
+      // 中国大陆：+86 1xxxxxxxxxx
+      /^\+861[3-9]\d{9}$/,
+      // 美国/加拿大：+1 + 10位 NANP，第一位2-9
+      /^\+1[2-9]\d{9}$/,
+      // 日本：+81 后面常见手机/座机，去掉国内开头0
+      /^\+81(70|80|90)\d{8}$|^\+81[1-9]\d{8,9}$/,
+      // 新加坡：+65 8位，手机8/9开头，座机6开头
+      /^\+65[689]\d{7}$/,
+      // 台湾：+886 手机9开头8位，或座机
+      /^\+886(9\d{8}|[2-8]\d{7,8})$/,
+      // 澳门：+853 8位，常见6/8/2开头
+      /^\+853[268]\d{7}$/,
+      // 英国：+44 后面10位左右，去掉国内开头0
+      /^\+44[1-9]\d{8,9}$/,
+      // 澳大利亚：+61 手机4开头8位，或座机
+      /^\+61(4\d{8}|[2378]\d{8})$/,
+      // 德国/法国/意大利/西班牙等欧洲常见长度
+      /^\+49[1-9]\d{6,13}$/,
+      /^\+33[1-9]\d{8}$/,
+      /^\+39\d{8,11}$/,
+      /^\+34[6-9]\d{8}$/,
+      // 泰国/越南/马来西亚/印尼/菲律宾
+      /^\+66[689]\d{8}$/,
+      /^\+84[3-9]\d{8}$/,
+      /^\+60[1-9]\d{7,9}$/,
+      /^\+62[2-9]\d{7,11}$/,
+      /^\+63[9]\d{9}$/,
+    ];
+
+    return countryRules.some((rule) => rule.test(phone));
+  };
+
+  const validateRegisterBaseInfo = () => {
+    if (!registerId || !registerEmail || !registerPw) {
+      show(t.fillRegisterInfo);
+      return false;
+    }
+
+    if (!isValidInternationalPhone(registerId)) {
+      show(t.invalidPhone);
+      return false;
+    }
+
+    if (!isValidEmail(registerEmail)) {
+      show(t.invalidEmail);
+      return false;
+    }
+
+    return true;
+  };
+
+  const sendRegisterCode = () => {
+    if (!validateRegisterBaseInfo()) return;
+    setSentVerifyCode(REGISTER_VERIFY_CODE);
+    setRegisterCode("");
+    show(t.verifyCodeSent);
+  };
+
+  const submitRegister = () => {
+    if (!registerId || !registerEmail || !registerPw || !registerCode) {
+      show(t.fillRegisterInfo);
+      return;
+    }
+
+    if (!validateRegisterBaseInfo()) return;
+
+    if (!sentVerifyCode) {
+      show(t.pleaseSendCode);
+      return;
+    }
+
+    if (registerCode !== sentVerifyCode) {
+      show(t.verifyCodeWrong);
+      return;
+    }
+
+    setUser({ id: normalizePhone(registerId) });
+    setRegisterId("");
+    setRegisterEmail("");
+    setRegisterPw("");
+    setRegisterCode("");
+    setSentVerifyCode("");
     setPage("home");
+    show(t.registerOk);
   };
 
   const submitOrder = () => {
@@ -623,6 +784,22 @@ export default function App() {
     <div style={s.page}>
       {toast && <div style={s.toast}>{toast}</div>}
 
+      {loginModalOpen && (
+        <LoginModal
+          t={t}
+          loginId={loginId}
+          setLoginId={setLoginId}
+          loginPw={loginPw}
+          setLoginPw={setLoginPw}
+          submitLogin={submitLogin}
+          close={() => setLoginModalOpen(false)}
+          goRegister={() => {
+            setLoginModalOpen(false);
+            setPage("register");
+          }}
+        />
+      )}
+
       <TopBar
         {...{
           lang,
@@ -633,6 +810,7 @@ export default function App() {
           cart,
           wish,
           setPage,
+          openLoginModal,
           protectedClick,
           currency,
           setCurrency,
@@ -774,12 +952,22 @@ export default function App() {
               <div style={s.loginBody}>
                 <div style={s.loginInputRow}>
                   <div>
-                    <input style={s.loginInput} placeholder={t.id} value={loginId} onChange={(e) => setLoginId(e.target.value)} />
+                    <input
+                      style={s.loginInput}
+                      type="text"
+                      placeholder={t.id}
+                      autoComplete="new-password"
+                      name="gmarket-no-save-user"
+                      value={loginId || ""}
+                      onChange={(e) => setLoginId(e.target.value)}
+                    />
                     <input
                       style={s.loginInput}
                       type="password"
                       placeholder={t.password}
-                      value={loginPw}
+                      autoComplete="new-password"
+                      name="gmarket-no-save-pass"
+                      value={loginPw || ""}
                       onChange={(e) => setLoginPw(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && submitLogin()}
                     />
@@ -801,7 +989,12 @@ export default function App() {
               </div>
             </div>
           </div>
-          <Footer t={t} openLineService={openLineService} />
+         <Footer
+  t={t}
+  openLineService={openLineService}
+  protectedClick={protectedClick}
+  setPage={setPage}
+/>
         </>
       )}
 
@@ -810,17 +1003,50 @@ export default function App() {
           <div style={s.registerArea}>
             <div style={s.registerBox}>
               <h1>{t.register}</h1>
-              <input style={s.fullInput} placeholder={t.id} />
-              <input style={s.fullInput} placeholder={t.email} />
-              <input style={s.fullInput} type="password" placeholder={t.password} />
+              <input
+                style={s.fullInput}
+                type="tel"
+                placeholder={t.registerPhone}
+                value={registerId}
+                onChange={(e) => setRegisterId(e.target.value.trim())}
+                autoComplete="off"
+              />
+              <input
+                style={s.fullInput}
+                type="email"
+                placeholder={t.email}
+                value={registerEmail}
+                onChange={(e) => setRegisterEmail(e.target.value)}
+                autoComplete="off"
+              />
+              <input
+                style={s.fullInput}
+                type="password"
+                placeholder={t.password}
+                value={registerPw}
+                onChange={(e) => setRegisterPw(e.target.value)}
+                autoComplete="new-password"
+              />
+
+              <div style={s.verifyRow}>
+                <input
+                  style={{ ...s.fullInput, margin: 0 }}
+                  placeholder={t.verifyCode}
+                  value={registerCode}
+                  onChange={(e) => setRegisterCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  maxLength={6}
+                  autoComplete="off"
+                />
+                <button style={s.verifyBtn} onClick={sendRegisterCode}>
+                  {t.sendVerifyCode}
+                </button>
+              </div>
+
               <label><input type="checkbox" /> {t.terms} / {t.privacy}</label>
               <div style={{ marginTop: 20 }}>
                 <button
                   style={s.submitBtn}
-                  onClick={() => {
-                    setUser({ id: "member" });
-                    setPage("home");
-                  }}
+                  onClick={submitRegister}
                 >
                   {t.register}
                 </button>
@@ -828,7 +1054,12 @@ export default function App() {
               </div>
             </div>
           </div>
-          <Footer t={t} openLineService={openLineService} />
+          <Footer
+  t={t}
+  openLineService={openLineService}
+  protectedClick={protectedClick}
+  setPage={setPage}
+/>
         </>
       )}
 
@@ -940,9 +1171,88 @@ export default function App() {
         <div style={s.container}>
           <button onClick={() => setPage("home")}>← {t.back}</button>
           <h1>{t.map}</h1>
-          <Footer t={t} openLineService={openLineService} />
+          <Footer
+  t={t}
+  openLineService={openLineService}
+  protectedClick={protectedClick}
+  setPage={setPage}
+/>
         </div>
       )}
+    </div>
+  );
+}
+
+function LoginModal({ t, loginId, setLoginId, loginPw, setLoginPw, submitLogin, close, goRegister }) {
+  const safeIdName = useMemo(() => `no-save-user-1777456405887`, []);
+  const safePwName = useMemo(() => `no-save-pass-1777456405887`, []);
+
+  return (
+    <div style={s.loginOverlay} onClick={close}>
+      <div style={s.loginModal} onClick={(e) => e.stopPropagation()}>
+        <button style={s.modalClose} onClick={close}>×</button>
+
+        <div style={s.modalLogo}>
+          <span style={{ color: "#00b050" }}>G</span>
+          <span style={{ color: "#0077ff" }}>market</span>
+        </div>
+
+        <h2 style={s.modalTitle}>{t.login}</h2>
+        <p style={s.modalSub}>{t.needLogin}</p>
+
+        <input
+          style={s.hiddenAutofill}
+          type="text"
+          name="fake-user"
+          autoComplete="username"
+          tabIndex="-1"
+          aria-hidden="true"
+        />
+        <input
+          style={s.hiddenAutofill}
+          type="password"
+          name="fake-pass"
+          autoComplete="current-password"
+          tabIndex="-1"
+          aria-hidden="true"
+        />
+
+        <input
+          style={s.modalInput}
+          type="text"
+          placeholder={t.id}
+          autoComplete="new-password"
+          name={safeIdName}
+          value={loginId || ""}
+          onChange={(e) => setLoginId(e.target.value)}
+        />
+        <input
+          style={s.modalInput}
+          type="password"
+          placeholder={t.password}
+          autoComplete="new-password"
+          name={safePwName}
+          value={loginPw || ""}
+          onChange={(e) => setLoginPw(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && submitLogin()}
+        />
+
+        <div style={s.modalOptions}>
+          <label><input type="checkbox" /> {t.saveId}</label>
+          <span>{t.forgot}</span>
+        </div>
+
+        <button style={s.modalLoginBtn} onClick={submitLogin}>
+          {t.login}
+        </button>
+
+        <div style={s.modalJoinBox}>
+          <span>{t.joinText}</span>
+          <button style={s.modalJoinBtn} onClick={goRegister}>
+            {t.register}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -955,6 +1265,7 @@ function TopBar({
   cart,
   wish,
   setPage,
+  openLoginModal,
   protectedClick,
   currency,
   setCurrency,
@@ -987,13 +1298,13 @@ function TopBar({
           </>
         ) : (
           <>
-            <span style={s.blue} onClick={() => setPage("login")}>{t.login}</span>
-            <span>OR</span>
+            <span style={s.blue} onClick={openLoginModal}>{t.login}</span>
+            <span>{t.or}</span>
             <span style={s.blue} onClick={() => setPage("register")}>{t.register}</span>
           </>
         )}
 
-        <span onClick={openLineService}>{t.help}</span>
+       <span onClick={() => setPage("service")}>{t.help}</span>
         <span style={s.blue} onClick={() => protectedClick(() => setPage("cart"))}>
           🛒 {t.cart} ({cart.reduce((n, x) => n + x.qty, 0)})
         </span>
@@ -1319,25 +1630,36 @@ function Product({ p, t, money, onDetail, onCart, onWish, rank, big }) {
   );
 }
 
-function Footer({ t, openLineService }) {
+function Footer({ t, openLineService, protectedClick, setPage }) {
+  const footerGo = (pageName) => {
+    protectedClick(() => setPage(pageName));
+  };
+
   return (
     <footer style={s.footer}>
       <div style={s.footerLinks}>
-        <span>{t.about}</span>
-        <span>{t.terms}</span>
-        <span>{t.privacy}</span>
-        <span>{t.siteMap}</span>
-        <span>{t.service}</span>
-        <span>{t.weibo}</span>
+        <span style={s.footerLink} onClick={() => footerGo("about")}>{t.about}</span>
+        <span style={s.footerLink} onClick={() => footerGo("terms")}>{t.terms}</span>
+        <span style={s.footerLink} onClick={() => footerGo("privacy")}>{t.privacy}</span>
+        <span style={s.footerLink} onClick={() => footerGo("map")}>{t.siteMap}</span>
+        <span style={s.footerLink} onClick={() => footerGo("service")}>{t.service}</span>
+        <span style={s.footerLink} onClick={() => footerGo("weibo")}>{t.weibo}</span>
       </div>
 
       <div style={s.footerInfo}>
         <div style={s.customerBox}>
           <b>{t.service}</b>
           <p>{t.customerTime}</p>
-          <button onClick={openLineService}>{t.onlineService}</button>
-          <p>KakaoTalk</p>
-          <button>Gmarket KR</button>
+
+          <button onClick={openLineService}>
+            {t.onlineService}
+          </button>
+
+          <p>{t.kakao}</p>
+
+          <button onClick={() => footerGo("service")}>
+            {t.gmarketKR}
+          </button>
         </div>
 
         <div style={s.companyBox}>
@@ -1363,7 +1685,9 @@ function Footer({ t, openLineService }) {
       </div>
 
       <p style={{ textAlign: "center", color: "#666" }}>{t.footerNotice}</p>
-      <p style={{ textAlign: "center" }}>Copyright © Gmarket All rights reserved.</p>
+      <p style={{ textAlign: "center" }}>
+        Copyright © Gmarket {t.copyright}
+      </p>
     </footer>
   );
 }
@@ -1373,6 +1697,49 @@ const s = {
   toast: {
     position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)",
     background: "#111", color: "#fff", padding: "12px 22px", borderRadius: 20, zIndex: 999,
+  },
+  loginOverlay: {
+    position: "fixed", inset: 0, background: "rgba(0,0,0,.45)", zIndex: 998,
+    display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
+  },
+  loginModal: {
+    width: 430, background: "#fff", borderRadius: 14, boxShadow: "0 18px 55px rgba(0,0,0,.28)",
+    padding: "28px 34px 30px", position: "relative", boxSizing: "border-box", borderTop: "5px solid #0077e6",
+  },
+  modalClose: {
+    position: "absolute", right: 14, top: 10, border: 0, background: "transparent",
+    fontSize: 28, cursor: "pointer", color: "#555", lineHeight: 1,
+  },
+  modalLogo: { fontSize: 34, fontWeight: "bold", textAlign: "center", marginBottom: 8 },
+  modalTitle: { textAlign: "center", margin: "8px 0 4px", fontSize: 26 },
+  modalSub: { textAlign: "center", color: "#666", marginBottom: 20 },
+  modalInput: {
+    width: "100%", height: 42, marginBottom: 10, border: "1px solid #bbb",
+    fontSize: 15, boxSizing: "border-box", padding: "0 12px", outline: "none",
+  },
+  hiddenAutofill: {
+    position: "absolute",
+    left: "-9999px",
+    width: 1,
+    height: 1,
+    opacity: 0,
+    pointerEvents: "none",
+  },
+  modalOptions: {
+    display: "flex", justifyContent: "space-between", alignItems: "center",
+    color: "#666", fontSize: 13, margin: "4px 0 16px",
+  },
+  modalLoginBtn: {
+    width: "100%", height: 44, background: "#0077e6", color: "#fff", border: 0,
+    fontWeight: "bold", fontSize: 16, cursor: "pointer", borderRadius: 4,
+  },
+  modalJoinBox: {
+    marginTop: 18, paddingTop: 16, borderTop: "1px solid #eee",
+    display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: "#555", fontSize: 13,
+  },
+  modalJoinBtn: {
+    minWidth: 110, height: 34, background: "#6aa9e9", color: "#fff", border: "1px solid #3e86d1",
+    cursor: "pointer", borderRadius: 4,
   },
   top: {
     height: 30, borderBottom: "1px solid #ddd", display: "flex", justifyContent: "space-between",
@@ -1467,11 +1834,14 @@ const s = {
   registerArea: { width: 700, margin: "70px auto 100px" },
   registerBox: { border: "1px solid #ddd", padding: 40, background: "#fafafa" },
   fullInput: { width: "100%", boxSizing: "border-box", padding: 13, border: "1px solid #bbb", margin: "8px 0 14px" },
+  verifyRow: { display: "grid", gridTemplateColumns: "1fr 130px", gap: 10, margin: "8px 0 14px" },
+  verifyBtn: { background: "#0077ff", color: "#fff", border: 0, cursor: "pointer", fontWeight: "bold" },
   submitBtn: { padding: "12px 34px", background: "#0077ff", color: "#fff", border: 0, cursor: "pointer", marginRight: 8 },
   footer: { borderTop: "2px solid #0077e6", marginTop: 40, fontSize: 13, color: "#555", paddingBottom: 20 },
   footerLinks: {
     height: 55, display: "flex", justifyContent: "center", alignItems: "center", gap: 90, borderBottom: "1px solid #ddd",
   },
+  footerLink: { cursor: "pointer", color: "#555" },
   footerInfo: {
     width: "72%", margin: "25px auto", display: "grid", gridTemplateColumns: "180px 320px 1fr", gap: 30, lineHeight: 1.6,
   },
