@@ -40,6 +40,21 @@ const L = {
     seeMore: "查看更多细节",
     saveId: "保存 ID",
     forgot: "忘记 ID 或密码",
+    findIdTitle: "找回 ID",
+    findIdQuestion: "忘记会员ID?",
+    findIdDesc1: "请输入以下会员信息，找回用户ID",
+    findIdDesc2: "用户ID，将发送到，您的邮箱中。10分钟以内，发送到您的邮箱中。",
+    findIdDesc3: "如您是用身份证或者外国人登陆证加入会员请",
+    findIdClick: "点击",
+    findIdEmailLabel: "加入会员时,输入的邮箱地址",
+    findIdCaptchaPlaceholder: "图片中的验证码",
+    findIdGetCode: "获取验证码",
+    findIdBottomPrefix: "如以上信息，全部记不清，请",
+    findIdBottomLink: "点击此处",
+    findIdBottomSuffix: "，重新加入会员。",
+    findIdCaptchaError: "请输入图片中的验证码",
+    findIdCodeSent: "验证码已发送",
+    findIdEmailNotRegistered: "邮箱未注册会员",
     joinText: "现在可以简单、快速地加入会员！",
     about: "关于Gmarket",
     terms: "用户协议",
@@ -59,6 +74,7 @@ const L = {
     company: "Gmarket Asia Ltd",
     businessNo: "营业执照号码",
     salesReport: "通信销售业申报",
+    salesReportNo: "香港旺角10630号",
     footerNotice:
       "Gmarket 提供韩国大交易的平台，并非商品的直接销售商，网上的商品由个人卖家上传到平台销售，因此对在线销售的商品不承担任何责任。",
     regionKorea: "韩国",
@@ -157,6 +173,21 @@ const L = {
     seeMore: "See more details",
     saveId: "Save ID",
     forgot: "Forgot ID or password",
+    findIdTitle: "Find ID",
+    findIdQuestion: "Forgot your member ID?",
+    findIdDesc1: "Enter your member information below to find your user ID.",
+    findIdDesc2: "Your user ID will be sent to your email within 10 minutes.",
+    findIdDesc3: "If you joined with an ID card or foreign registration card, please",
+    findIdClick: "click here",
+    findIdEmailLabel: "Email address used when joining",
+    findIdCaptchaPlaceholder: "Enter the image verification code",
+    findIdGetCode: "Get verification code",
+    findIdBottomPrefix: "If you cannot remember the information above, please",
+    findIdBottomLink: "click here",
+    findIdBottomSuffix: " to register again.",
+    findIdCaptchaError: "Please enter the image verification code",
+    findIdCodeSent: "Verification code sent",
+    findIdEmailNotRegistered: "Email is not a registered member",
     joinText: "Join quickly and enjoy member benefits!",
     about: "About Gmarket",
     terms: "Terms",
@@ -177,6 +208,7 @@ const L = {
     company: "Gmarket Asia Ltd",
     businessNo: "Business Registration No.",
     salesReport: "Online Sales Registration",
+    salesReportNo: "Mong Kok 10630, Hong Kong",
     footerNotice:
       "Gmarket provides a marketplace platform and is not the direct seller of listed products.",
     regionKorea: "South Korea",
@@ -276,6 +308,21 @@ const L = {
     seeMore: "자세히 보기",
     saveId: "아이디 저장",
     forgot: "아이디 또는 비밀번호 찾기",
+    findIdTitle: "아이디 찾기",
+    findIdQuestion: "회원 ID를 잊으셨나요?",
+    findIdDesc1: "아래 회원 정보를 입력하여 사용자 ID를 찾으세요.",
+    findIdDesc2: "사용자 ID는 10분 이내에 이메일로 발송됩니다.",
+    findIdDesc3: "신분증 또는 외국인등록증으로 가입하신 경우",
+    findIdClick: "클릭",
+    findIdEmailLabel: "가입 시 입력한 이메일 주소",
+    findIdCaptchaPlaceholder: "이미지 속 인증번호",
+    findIdGetCode: "인증번호 받기",
+    findIdBottomPrefix: "위 정보를 모두 기억하지 못하시면",
+    findIdBottomLink: "여기를 클릭",
+    findIdBottomSuffix: "하여 다시 가입하세요.",
+    findIdCaptchaError: "이미지 속 인증번호를 입력하세요",
+    findIdCodeSent: "인증번호가 발송되었습니다",
+    findIdEmailNotRegistered: "등록되지 않은 회원 이메일입니다",
     joinText: "쉽고 빠르게 회원가입하세요!",
     about: "Gmarket 소개",
     terms: "이용약관",
@@ -296,6 +343,7 @@ const L = {
     company: "Gmarket Asia Ltd",
     businessNo: "사업자등록번호",
     salesReport: "통신판매신고",
+    salesReportNo: "홍콩 몽콕 10630호",
     footerNotice:
       "Gmarket은 거래 플랫폼을 제공하며 상품의 직접 판매자가 아닙니다.",
     regionKorea: "한국",
@@ -627,6 +675,12 @@ export default function App() {
   const [registerPw, setRegisterPw] = useState("");
   const [registerCode, setRegisterCode] = useState("");
   const [sentVerifyCode, setSentVerifyCode] = useState("");
+  const [registeredEmails, setRegisteredEmails] = useState([
+    "le1778763@gmail.com",
+    "lel778763@gmail.com",
+    "le778763@gmail.com",
+    "test@gmail.com",
+  ]);
   const [currency, setCurrency] = useState("KRW");
   const [currencyOpen, setCurrencyOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -832,6 +886,10 @@ const openLineService = () => {
       return;
     }
 
+    setRegisteredEmails((old) => {
+      const emailValue = registerEmail.trim().toLowerCase();
+      return old.includes(emailValue) ? old : [...old, emailValue];
+    });
     setUser({ id: normalizePhone(registerId) });
     setRegisterId("");
     setRegisterEmail("");
@@ -857,7 +915,7 @@ const openLineService = () => {
   };
 
   const title = category === "All" ? t.deal : catName(cats.find((c) => c.key === category));
-  const showHeader = !["detail", "cart", "orders", "wishlist", "service", "map"].includes(page);
+  const showHeader = !["detail", "cart", "orders", "wishlist", "service", "map", "find"].includes(page);
 
   const hotProducts = [...allProducts].sort((a, b) => b.sales - a.sales).slice(0, 20);
   const dealProducts = allProducts.filter((p) => p.price < 70).slice(0, 24);
@@ -876,6 +934,10 @@ const openLineService = () => {
           setLoginPw={setLoginPw}
           submitLogin={submitLogin}
           close={() => setLoginModalOpen(false)}
+          goFind={() => {
+            setLoginModalOpen(false);
+            setPage("find");
+          }}
           goRegister={() => {
             setLoginModalOpen(false);
             setPage("register");
@@ -1059,7 +1121,13 @@ const openLineService = () => {
                 </div>
                 <div style={s.loginOptions}>
                   <label><input type="checkbox" /> {t.saveId}</label>
-                  <span>{t.forgot}</span>
+                  <button
+                    type="button"
+                    style={s.forgotLinkButton}
+                    onClick={() => setPage("find")}
+                  >
+                    {t.forgot}
+                  </button>
                 </div>
               </div>
             </div>
@@ -1078,6 +1146,12 @@ const openLineService = () => {
   protectedClick={protectedClick}
   setPage={setPage}
 />
+        </>
+      )}
+
+      {page === "find" && (
+        <>
+          <FindIdPage t={t} show={show} setPage={setPage} registeredEmails={registeredEmails} />
         </>
       )}
 
@@ -1266,7 +1340,96 @@ const openLineService = () => {
   );
 }
 
-function LoginModal({ t, loginId, setLoginId, loginPw, setLoginPw, submitLogin, close, goRegister }) {
+
+function createFindCaptcha() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 5; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
+
+function FindIdPage({ t, show, setPage, registeredEmails }) {
+  const [email, setEmail] = useState("");
+  const [captcha, setCaptcha] = useState("");
+  const [captchaText, setCaptchaText] = useState(() => createFindCaptcha());
+
+  const refreshCaptcha = () => {
+    setCaptcha("");
+    setCaptchaText(createFindCaptcha());
+  };
+
+  const requestFindCode = () => {
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+    if (!validEmail) {
+      show(t.invalidEmail || "请输入正确的邮箱格式");
+      return;
+    }
+    const emailValue = email.trim().toLowerCase();
+    const isRegisteredMember = registeredEmails.some((item) => item.toLowerCase() === emailValue);
+    if (!isRegisteredMember) {
+      show(t.findIdEmailNotRegistered || "邮箱未注册会员");
+      return;
+    }
+    if (captcha.trim().toUpperCase() !== captchaText) {
+      show(t.findIdCaptchaError || "请输入图片中的验证码");
+      return;
+    }
+    show(t.findIdCodeSent || "验证码已发送");
+  };
+
+  return (
+    <div style={s.findPageWrap}>
+      <div style={s.findPageBox}>
+        <h1 style={s.findTitle}>{t.findIdTitle}</h1>
+        <div style={s.findDivider}></div>
+
+        <div style={s.findIntro}>
+          <p>{t.findIdQuestion}</p>
+          <p>{t.findIdDesc1}</p>
+          <p>{t.findIdDesc2}</p>
+        </div>
+
+        <div style={s.findFormTable}>
+          <div style={s.findRow}>
+            <div style={s.findLabel}>{t.findIdEmailLabel}</div>
+            <div style={s.findField}>
+              <input
+                style={s.findInput}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+              />
+            </div>
+          </div>
+
+          <div style={s.findCaptchaRow}>
+            <div style={s.findCaptchaImage}>{captchaText}</div>
+            <button style={s.findIconBtn} type="button">🔊</button>
+            <button style={s.findIconBtn} type="button" onClick={refreshCaptcha}>↻</button>
+            <div style={s.findField}>
+              <input
+                style={s.findCaptchaInput}
+                placeholder={t.findIdCaptchaPlaceholder}
+                value={captcha}
+                onChange={(e) => setCaptcha(e.target.value.toUpperCase())}
+                autoComplete="off"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button style={s.findSubmitBtn} onClick={requestFindCode}>{t.findIdGetCode}</button>
+
+
+        <button style={s.findBackBtn} onClick={() => setPage("home")}>← {t.back}</button>
+      </div>
+    </div>
+  );
+}
+
+function LoginModal({ t, loginId, setLoginId, loginPw, setLoginPw, submitLogin, close, goFind, goRegister }) {
   const safeIdName = useMemo(() => `no-save-user-1777456405887`, []);
   const safePwName = useMemo(() => `no-save-pass-1777456405887`, []);
 
@@ -1322,7 +1485,7 @@ function LoginModal({ t, loginId, setLoginId, loginPw, setLoginPw, submitLogin, 
 
         <div style={s.modalOptions}>
           <label><input type="checkbox" /> {t.saveId}</label>
-          <span>{t.forgot}</span>
+          <button type="button" style={s.forgotLinkButton} onClick={goFind}>{t.forgot}</button>
         </div>
 
         <button style={s.modalLoginBtn} onClick={submitLogin}>
@@ -1752,7 +1915,7 @@ function Footer({ t, openLineService, protectedClick, setPage }) {
           <p>{t.email}: support@gmarket.hk</p>
           <p>{t.company}</p>
           <p>{t.businessNo}: 254453</p>
-          <p>{t.salesReport}: 香港旺角10630号</p>
+          <p>{t.salesReport}: {t.salesReportNo}</p>
         </div>
 
         <div className="gm-map-box" style={s.mapBox}>
@@ -1785,6 +1948,25 @@ const s = {
     position: "fixed", inset: 0, background: "rgba(0,0,0,.45)", zIndex: 998,
     display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
   },
+  findPageWrap: { width: "100%", minHeight: "560px", background: "#fff", padding: "45px 0 70px" },
+  findPageBox: { width: "980px", maxWidth: "82%", margin: "0 auto", color: "#555", position: "relative" },
+  findTitle: { fontSize: 34, color: "#4a4a4a", margin: "0 0 12px", fontWeight: 800 },
+  findDivider: { borderTop: "1px solid #333", marginBottom: 22 },
+  findIntro: { fontSize: 14, lineHeight: 1.45, marginBottom: 16 },
+  findBlueLink: { color: "#0077ff", textDecoration: "underline", cursor: "pointer" },
+  findFormTable: { borderTop: "1px solid #222", borderBottom: "1px solid #ddd", marginTop: 12 },
+  findRow: { display: "grid", gridTemplateColumns: "280px 1fr", minHeight: 54, borderBottom: "1px solid #ddd" },
+  findLabel: { background: "#f7f7f7", padding: "18px 20px", color: "#666", fontSize: 14 },
+  findField: { padding: "12px 20px", display: "flex", alignItems: "center" },
+  findInput: { width: 280, height: 28, border: "1px solid #ccc", padding: "0 10px", outline: "none" },
+  findCaptchaRow: { display: "grid", gridTemplateColumns: "170px 58px 58px 1fr", minHeight: 58, alignItems: "stretch" },
+  findCaptchaImage: { background: "linear-gradient(135deg,#0b6d16,#5fae38)", color: "#fff", fontSize: 30, letterSpacing: 9, fontWeight: 800, fontFamily: "Georgia, serif", display: "flex", alignItems: "center", justifyContent: "center", textShadow: "1px 2px 2px rgba(0,0,0,.45)", transform: "skew(-3deg)" },
+  findIconBtn: { border: 0, borderLeft: "1px solid #ddd", borderRight: "1px solid #ddd", background: "#fafafa", fontSize: 24, color: "#888", cursor: "pointer" },
+  findCaptchaInput: { width: 280, height: 28, border: "1px solid #ccc", padding: "0 10px", outline: "none" },
+  findSubmitBtn: { display: "block", margin: "16px auto 0", width: 230, height: 34, background: "#0077e6", color: "#fff", border: 0, fontWeight: "bold", cursor: "pointer" },
+  findBottomText: { marginTop: 24, color: "#999", fontSize: 14 },
+  findBackBtn: { marginTop: 10, padding: "6px 12px", cursor: "pointer" },
+
   loginModal: {
     width: 430, background: "#fff", borderRadius: 14, boxShadow: "0 18px 55px rgba(0,0,0,.28)",
     padding: "28px 34px 30px", position: "relative", boxSizing: "border-box", borderTop: "5px solid #0077e6",
@@ -1796,6 +1978,7 @@ const s = {
   modalLogo: { fontSize: 34, fontWeight: "bold", textAlign: "center", marginBottom: 8 },
   modalTitle: { textAlign: "center", margin: "8px 0 4px", fontSize: 26 },
   modalSub: { textAlign: "center", color: "#666", marginBottom: 20 },
+  forgotLinkButton: { border: 0, background: "transparent", padding: 0, margin: 0, color: "#006ee6", textDecoration: "underline", cursor: "pointer", fontSize: 13, fontFamily: "inherit" },
   modalInput: {
     width: "100%", height: 42, marginBottom: 10, border: "1px solid #bbb",
     fontSize: 15, boxSizing: "border-box", padding: "0 12px", outline: "none",
