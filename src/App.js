@@ -66,7 +66,7 @@ const L = {
     gmarketKR: "Gmarket KR",
     copyright: "版权所有",    
     customerTime: "工作时间：24小时（全年无休）",
-    onlineService: "添加 LINE 联系客服",
+    onlineService: "在线联系客服",
     companyAddress: "香港旺角太子道西193号新世纪广场1座17楼",
     phone: "电话",
     fax: "传真",
@@ -133,6 +133,15 @@ const L = {
     invalidEmail: "请输入正确的邮箱格式",
     invalidPhone: "请输入正确的电话号码",
     registerPhone: "手机号码（请添加国家区号，如 +82）",
+    customerChat: "在线客服",
+    customerEmailInput: "请输入邮箱，方便客服回复",
+    customerMessageInput: "请输入您的问题",
+    customerStartChat: "开始咨询",
+    customerSend: "发送",
+    customerClose: "关闭",
+    customerChatWelcome: "您好，请问需要帮您查询什么？",
+    customerNoMessage: "请输入咨询内容",
+    customerChatError: "连接客服失败，请确认后台已启动",
   },
   en: {
     login: "Sign In",
@@ -199,7 +208,7 @@ const L = {
     gmarketKR: "Gmarket KR",
     copyright: "All rights reserved.",
     customerTime: "Service hours: 24 hours",
-    onlineService: "Add LINE Customer Service",
+    onlineService: "Online Customer Service",
     companyAddress:
       "17/F, Tower 1, MOKO, 193 Prince Edward Road West, Mong Kok, Hong Kong",
     phone: "Phone",
@@ -268,6 +277,15 @@ const L = {
     invalidEmail: "Please enter a valid email address",
     invalidPhone: "Please enter a valid phone number",
     registerPhone: "Phone number with country code, e.g. +82",
+    customerChat: "Online Customer Service",
+    customerEmailInput: "Enter your email for customer service reply",
+    customerMessageInput: "Type your question",
+    customerStartChat: "Start Chat",
+    customerSend: "Send",
+    customerClose: "Close",
+    customerChatWelcome: "Hello, how can we help you?",
+    customerNoMessage: "Please enter your message",
+    customerChatError: "Failed to connect. Please make sure the backend is running",
   },
   ko: {
     login: "로그인",
@@ -334,7 +352,7 @@ const L = {
     gmarketKR: "Gmarket KR",
     copyright: "모든 권리 보유.",
     customerTime: "운영시간: 24시간",
-    onlineService: "LINE 고객센터 추가",
+    onlineService: "온라인 고객센터",
     companyAddress:
       "홍콩 몽콕 프린스 에드워드 로드 웨스트 193 MOKO 타워1 17층",
     phone: "전화",
@@ -402,6 +420,15 @@ const L = {
     invalidEmail: "올바른 이메일 형식을 입력해 주세요",
     invalidPhone: "올바른 전화번호를 입력해 주세요",
     registerPhone: "휴대폰 번호（국가번호 포함, 예: +82）",
+    customerChat: "온라인 고객센터",
+    customerEmailInput: "답변 받을 이메일을 입력하세요",
+    customerMessageInput: "문의 내용을 입력하세요",
+    customerStartChat: "상담 시작",
+    customerSend: "전송",
+    customerClose: "닫기",
+    customerChatWelcome: "안녕하세요, 무엇을 도와드릴까요?",
+    customerNoMessage: "문의 내용을 입력해 주세요",
+    customerChatError: "고객센터 연결 실패. 백엔드가 실행 중인지 확인하세요",
   },
 };
 
@@ -421,157 +448,145 @@ const cats = [
   { key: "computer", icon: "💻", zh: "电脑/数码", en: "Computer/Digital", ko: "컴퓨터/디지털" },
 ];
 
-const productData = {
-  fashion: {
-    names: ["Premium Jacket", "Luxury Bag", "Designer Coat", "Brand Wallet", "Silk Shirt"],
-    imgs: [
-      "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=700",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=700",
-      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=700",
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=700",
-    ],
-  },
-  clothing: {
-    names: ["Korea Hoodie", "Cotton T-Shirt", "Slim Jeans", "Summer Dress", "Casual Pants"],
-    imgs: [
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=700",
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=700",
-      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=700",
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=700",
-    ],
-  },
-  shoes: {
-    names: ["Running Shoes", "Sneakers", "Leather Shoes", "Sports Sandals", "Travel Backpack"],
-    imgs: [
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700",
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=700",
-      "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=700",
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=700",
-    ],
-  },
-  beauty: {
-    names: ["Korean Skincare Set", "Hair Treatment", "Face Cream", "Lip Tint", "Sunscreen"],
-    imgs: [
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=700",
-      "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=700",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=700",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700",
-    ],
-  },
-  kids: {
-    names: ["Baby Diaper Pack", "Kids Toy Set", "Baby Bottle", "Children Hoodie", "Baby Car Seat"],
-    imgs: [
-      "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=700",
-      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=700",
-      "https://images.unsplash.com/photo-1586015555751-63bb77f4322a?w=700",
-      "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=700",
-    ],
-  },
-  food: {
-    names: ["Ramen Pack", "Korean Snack Box", "Kimchi Set", "Coffee Mix", "Seaweed Snack"],
-    imgs: [
-      "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=700",
-      "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=700",
-      "https://images.unsplash.com/photo-1583224964978-2257b960c3d3?w=700",
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700",
-    ],
-  },
-  home: {
-    names: ["Cleaning Kit", "Storage Box", "Laundry Set", "Home Organizer", "Towel Set"],
-    imgs: [
-      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=700",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700",
-      "https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=700",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=700",
-    ],
-  },
-  kitchen: {
-    names: ["Kitchen Set", "Cookware Pot", "Coffee Cup", "Knife Set", "Rice Cooker"],
-    imgs: [
-      "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=700",
-      "https://images.unsplash.com/photo-1584990347449-a5d9f800a783?w=700",
-      "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=700",
-      "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=700",
-    ],
-  },
-  sports: {
-    names: ["Yoga Mat", "Camping Light", "Outdoor Bag", "Fitness Band", "Training Gloves"],
-    imgs: [
-      "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=700",
-      "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=700",
-      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=700",
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700",
-    ],
-  },
-  health: {
-    names: ["Vitamin Pack", "Protein Shake", "Diet Tea", "Omega 3", "Red Ginseng"],
-    imgs: [
-      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=700",
-      "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=700",
-      "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=700",
-      "https://images.unsplash.com/photo-1550572017-edd951b55104?w=700",
-    ],
-  },
-  kpop: {
-    names: ["KPOP Album Set", "Photo Card Pack", "Light Stick", "Poster Set", "Fan Goods"],
-    imgs: [
-      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700",
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=700",
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=700",
-      "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=700",
-    ],
-  },
-  electronics: {
-    names: ["iPhone 15 Pro", "Samsung Galaxy S24", "AirPods Pro 2", "Smart Watch", "Galaxy Buds"],
-    imgs: [
-      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=700",
-      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=700",
-      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=700",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700",
-    ],
-  },
-  computer: {
-    names: ["MacBook Air M2", "LG Ultra Monitor", "Mechanical Keyboard", "Gaming Mouse", "USB Hub"],
-    imgs: [
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=700",
-      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=700",
-      "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=700",
-      "https://images.unsplash.com/photo-1527814050087-3793815479db?w=700",
-    ],
-  },
-};
+// ================== 真实商品系统（全站商品源） ==================
+// 说明：不再用 10000 个循环假商品；改成每个分类的真实商品池。
+// 价格单位直接使用韩元 KRW，前台显示时不会再乘 170。
+const productSeeds = [
+  // 品牌时尚
+  ["fashion", "MUSINSA Standard Wool Blend Coat", 159000, 219000, "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=900&auto=format&fit=crop&q=80"],
+  ["fashion", "MARHEN.J Rico Mini Shoulder Bag", 89000, 129000, "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&auto=format&fit=crop&q=80"],
+  ["fashion", "Fennec Compact Leather Wallet", 59000, 79000, "https://images.unsplash.com/photo-1627123424574-724758594e93?w=900&auto=format&fit=crop&q=80"],
+  ["fashion", "Korean Satin Blouse Shirt", 49000, 69000, "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=900&auto=format&fit=crop&q=80"],
+  ["fashion", "Minimal Crossbody Bag", 76000, 99000, "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80"],
+  ["fashion", "Classic Check Jacket", 118000, 158000, "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=900&auto=format&fit=crop&q=80"],
+
+  // 服装
+  ["clothing", "Korean Oversize Hoodie", 59000, 89000, "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=900&auto=format&fit=crop&q=80"],
+  ["clothing", "Cotton Basic T-Shirt 3 Pack", 29900, 39900, "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=900&auto=format&fit=crop&q=80"],
+  ["clothing", "Slim Fit Denim Jeans", 69000, 99000, "https://images.unsplash.com/photo-1542272604-787c3835535d?w=900&auto=format&fit=crop&q=80"],
+  ["clothing", "Summer Casual Dress", 79000, 109000, "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=900&auto=format&fit=crop&q=80"],
+  ["clothing", "Lightweight Knit Cardigan", 62000, 85000, "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=900&auto=format&fit=crop&q=80"],
+  ["clothing", "Daily Wide Slacks", 54000, 76000, "https://images.unsplash.com/photo-1506629905607-d9df6fb45a95?w=900&auto=format&fit=crop&q=80"],
+
+  // 配饰/鞋类
+  ["shoes", "Nike Air Force 1 Low", 129000, 159000, "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=900&auto=format&fit=crop&q=80"],
+  ["shoes", "Adidas Ultraboost Running Shoes", 169000, 219000, "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=80"],
+  ["shoes", "Leather Oxford Shoes", 119000, 169000, "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=900&auto=format&fit=crop&q=80"],
+  ["shoes", "Travel Backpack 28L", 69000, 99000, "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&auto=format&fit=crop&q=80"],
+  ["shoes", "Daily Canvas Sneakers", 49000, 69000, "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=900&auto=format&fit=crop&q=80"],
+  ["shoes", "Premium Leather Belt", 39000, 59000, "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=900&auto=format&fit=crop&q=80"],
+
+  // 美妆/护发
+  ["beauty", "Laneige Water Bank Cream 50ml", 32000, 45000, "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=900&auto=format&fit=crop&q=80"],
+  ["beauty", "Sulwhasoo First Care Serum 60ml", 89000, 115000, "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80"],
+  ["beauty", "Korean Skincare Gift Set", 69000, 99000, "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80"],
+  ["beauty", "Hair Treatment Care Set", 24900, 35900, "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=900&auto=format&fit=crop&q=80"],
+  ["beauty", "Romand Juicy Lip Tint", 12900, 16900, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900&auto=format&fit=crop&q=80"],
+  ["beauty", "Innisfree Green Tea Seed Serum", 28000, 38000, "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=900&auto=format&fit=crop&q=80"],
+
+  // 母婴/儿童
+  ["kids", "Baby Care Diaper Pack", 29900, 39900, "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=900&auto=format&fit=crop&q=80"],
+  ["kids", "Kids Wooden Toy Set", 45900, 59000, "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=900&auto=format&fit=crop&q=80"],
+  ["kids", "Baby Feeding Bottle Set", 21900, 31900, "https://images.unsplash.com/photo-1586015555751-63bb77f4322a?w=900&auto=format&fit=crop&q=80"],
+  ["kids", "Children Cotton Hoodie", 39000, 56000, "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=900&auto=format&fit=crop&q=80"],
+  ["kids", "Kids School Backpack", 49900, 69000, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900&auto=format&fit=crop&q=80"],
+  ["kids", "Baby Wet Wipes Bulk Pack", 18900, 25900, "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=900&auto=format&fit=crop&q=80"],
+
+  // 食品
+  ["food", "Korean Ramen Multi Pack", 18900, 24900, "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=900&auto=format&fit=crop&q=80"],
+  ["food", "Korean Snack Box Set", 32900, 42900, "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=900&auto=format&fit=crop&q=80"],
+  ["food", "Premium Kimchi Side Dish Set", 24900, 34900, "https://images.unsplash.com/photo-1583224964978-2257b960c3d3?w=900&auto=format&fit=crop&q=80"],
+  ["food", "Maxim Instant Coffee Mix 100T", 21900, 28900, "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&auto=format&fit=crop&q=80"],
+  ["food", "Korean Seaweed Snack Pack", 15900, 22900, "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&auto=format&fit=crop&q=80"],
+  ["food", "Honey Butter Almond 210g", 12900, 17900, "https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=900&auto=format&fit=crop&q=80"],
+
+  // 生活用品
+  ["home", "Premium Laundry Detergent Set", 21900, 29900, "https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=900&auto=format&fit=crop&q=80"],
+  ["home", "Foldable Storage Box 3P", 24900, 35900, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&auto=format&fit=crop&q=80"],
+  ["home", "Household Cleaning Kit", 19900, 27900, "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&auto=format&fit=crop&q=80"],
+  ["home", "Cotton Bath Towel Set", 32900, 45900, "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?w=900&auto=format&fit=crop&q=80"],
+  ["home", "Home Organizer Basket", 17900, 25900, "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=900&auto=format&fit=crop&q=80"],
+  ["home", "Scented Diffuser 200ml", 25900, 34900, "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=900&auto=format&fit=crop&q=80"],
+
+  // 家居/厨房
+  ["kitchen", "Stainless Cookware Pot 24cm", 59000, 79000, "https://images.unsplash.com/photo-1584990347449-a5d9f800a783?w=900&auto=format&fit=crop&q=80"],
+  ["kitchen", "Ceramic Coffee Mug Set", 19900, 29900, "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=900&auto=format&fit=crop&q=80"],
+  ["kitchen", "Modern Kitchen Tool Set", 34900, 49000, "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=900&auto=format&fit=crop&q=80"],
+  ["kitchen", "Kitchen Knife Set", 69000, 99000, "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=900&auto=format&fit=crop&q=80"],
+  ["kitchen", "Air Fryer 5L", 99000, 139000, "https://images.unsplash.com/photo-1585515320310-259814833e62?w=900&auto=format&fit=crop&q=80"],
+  ["kitchen", "Wooden Cutting Board", 24900, 34900, "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=900&auto=format&fit=crop&q=80"],
+
+  // 运动/户外
+  ["sports", "Non Slip Yoga Mat", 27900, 39000, "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=900&auto=format&fit=crop&q=80"],
+  ["sports", "Camping Lantern LED Light", 34900, 49000, "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&auto=format&fit=crop&q=80"],
+  ["sports", "Resistance Band Set", 19900, 29000, "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&auto=format&fit=crop&q=80"],
+  ["sports", "Fitness Training Gloves", 22900, 32900, "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=900&auto=format&fit=crop&q=80"],
+  ["sports", "Outdoor Camping Chair", 45900, 65000, "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=900&auto=format&fit=crop&q=80"],
+  ["sports", "Running Waist Bag", 15900, 23900, "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=900&auto=format&fit=crop&q=80"],
+
+  // 健康/保健
+  ["health", "Daily Vitamin Pack 60T", 32900, 45900, "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=900&auto=format&fit=crop&q=80"],
+  ["health", "Protein Shake Bottle", 14900, 21900, "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=900&auto=format&fit=crop&q=80"],
+  ["health", "Premium Diet Tea", 21900, 31900, "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=900&auto=format&fit=crop&q=80"],
+  ["health", "Red Ginseng Gift Set", 89000, 129000, "https://images.unsplash.com/photo-1550572017-edd951b55104?w=900&auto=format&fit=crop&q=80"],
+  ["health", "Digital Body Scale", 29900, 42900, "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&auto=format&fit=crop&q=80"],
+  ["health", "Massage Gun Mini", 69000, 99000, "https://images.unsplash.com/photo-1620733723572-11c53f73a416?w=900&auto=format&fit=crop&q=80"],
+
+  // 兴趣/KPOP
+  ["kpop", "KPOP Album Package", 26900, 34900, "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&auto=format&fit=crop&q=80"],
+  ["kpop", "Photo Card Binder", 15900, 22900, "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&auto=format&fit=crop&q=80"],
+  ["kpop", "Concert Light Stick", 49000, 69000, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=900&auto=format&fit=crop&q=80"],
+  ["kpop", "Poster Goods Set", 18900, 25900, "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=900&auto=format&fit=crop&q=80"],
+  ["kpop", "Acrylic Stand Figure", 12900, 19900, "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&auto=format&fit=crop&q=80"],
+  ["kpop", "Mini Photo Card Pack", 9900, 14900, "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&auto=format&fit=crop&q=80"],
+
+  // 电子/数码
+  ["electronics", "Apple iPhone 15 Pro 128GB", 1180000, 1390000, "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=900&auto=format&fit=crop&q=80"],
+  ["electronics", "Samsung Galaxy S24 256GB", 1050000, 1290000, "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=900&auto=format&fit=crop&q=80"],
+  ["electronics", "Apple AirPods Pro 2", 289000, 329000, "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=900&auto=format&fit=crop&q=80"],
+  ["electronics", "Samsung Galaxy Buds2 Pro", 179000, 219000, "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=900&auto=format&fit=crop&q=80"],
+  ["electronics", "Apple Watch Series 9 GPS", 459000, 599000, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&auto=format&fit=crop&q=80"],
+  ["electronics", "Anker PowerCore 20000mAh", 59000, 79000, "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=900&auto=format&fit=crop&q=80"],
+
+  // 电脑/数码
+  ["computer", "Apple MacBook Air M2 13-inch", 1290000, 1490000, "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&auto=format&fit=crop&q=80"],
+  ["computer", "LG UltraWide Monitor 34-inch", 499000, 629000, "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=900&auto=format&fit=crop&q=80"],
+  ["computer", "Mechanical Keyboard RGB", 89000, 129000, "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=900&auto=format&fit=crop&q=80"],
+  ["computer", "Wireless Gaming Mouse", 69000, 99000, "https://images.unsplash.com/photo-1527814050087-3793815479db?w=900&auto=format&fit=crop&q=80"],
+  ["computer", "Samsung Portable SSD 1TB", 119000, 159000, "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=900&auto=format&fit=crop&q=80"],
+  ["computer", "USB-C Hub 8 in 1", 39000, 59000, "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=900&auto=format&fit=crop&q=80"],
+];
 
 function makeProducts() {
-  const arr = [];
-  for (let i = 1; i <= 10000; i++) {
-    const cat = cats[(i - 1) % cats.length];
-    const group = productData[cat.key];
-    const name = group.names[(i - 1) % group.names.length];
-    const img = group.imgs[(i - 1) % group.imgs.length];
-    const base = 15 + ((i * 37) % 1480);
+  const categoryIndex = new Map();
 
-    arr.push({
-      id: i,
-      categoryKey: cat.key,
-      name: `${name} ${i}`,
-      price: base,
-      oldPrice: base + 40 + ((i * 11) % 300),
-      stock: 8 + ((i * 7) % 480),
-      sales: (i * 31) % 20000,
-      rating: (4.1 + ((i % 9) / 10)).toFixed(1),
-      image: img,
-      desc: `${cat.en} · authentic item · fast international shipping`,
+  return productSeeds.map((item, index) => {
+    const [categoryKey, name, price, oldPrice, image] = item;
+    const count = (categoryIndex.get(categoryKey) || 0) + 1;
+    categoryIndex.set(categoryKey, count);
+
+    return {
+      id: index + 1,
+      categoryKey,
+      name,
+      price,
+      oldPrice,
+      stock: 25 + ((index * 19) % 260),
+      sales: 300 + ((index * 733) % 24000),
+      rating: (4.3 + ((index % 6) / 10)).toFixed(1),
+      image,
+      desc: "官方正品 · 韩国本地/国际配送 · 支持售后",
       reviews: [
-        "Quality is good and delivery was fast.",
-        "Packaging was clean. I will buy again.",
-        "Product matches the description.",
+        "商品包装完整，和页面描述一致。",
+        "发货速度不错，价格也比较合理。",
+        "质量比想象中好，下次还会购买。",
       ],
-    });
-  }
-  return arr;
+    };
+  });
 }
 
 const allProducts = makeProducts();
+
 
 function ResponsiveStyle() {
   useEffect(() => {
@@ -655,6 +670,7 @@ function ResponsiveStyle() {
 
 
 const REGISTER_VERIFY_CODE = "746291";
+const API_BASE = "http://localhost:4000";
 
 export default function App() {
   const [lang, setLang] = useState("zh");
@@ -684,6 +700,12 @@ export default function App() {
   const [currency, setCurrency] = useState("KRW");
   const [currencyOpen, setCurrencyOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatId, setChatId] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatEmail, setChatEmail] = useState("");
+  const [chatText, setChatText] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
 
   const t = L[lang];
   const perPage = 24;
@@ -718,20 +740,100 @@ export default function App() {
     callback();
   };
 
-  const LINE_URL = "https://line.me/R/ti/p/~xiaoxiao8886";
+  const openLineService = () => {
+    setChatOpen(true);
+    setChatEmail((old) => old || (user?.id && user.id.includes("@") ? user.id : ""));
+  };
 
-const openLineService = () => {
-  const ok = window.confirm(t.lineConfirm || "即将跳转到 LINE 在线客服聊天，是否继续？");
+  const loadCustomerChat = async (id = chatId) => {
+    if (!id) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/chats`, { cache: "no-store" });
+      if (!res.ok) throw new Error("chat list request failed");
+      const list = await res.json();
+      const chat = list.find((item) => String(item.id) === String(id));
+      if (chat) {
+        setChatMessages(chat.messages || []);
+      } else {
+        // 后台重启后，旧 chatId 会失效；自动清空，下一次发送会重新创建对话
+        setChatId(null);
+        setChatMessages([]);
+      }
+    } catch (err) {
+      // 后台没启动时不让页面崩溃
+    }
+  };
 
-  if (ok) {
-    window.open(LINE_URL, "_blank", "noopener,noreferrer");
-  }
-};
+  const createCustomerChat = async (customer, text) => {
+    const res = await fetch(`${API_BASE}/api/chats`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ customer, text }),
+    });
+    if (!res.ok) throw new Error("create chat failed");
+    const chat = await res.json();
+    setChatId(chat.id);
+    setChatMessages(chat.messages || []);
+    return chat;
+  };
+
+  const sendCustomerMessage = async () => {
+    const text = chatText.trim();
+    if (!text) return show(t.customerNoMessage || "请输入咨询内容");
+
+    const customer = (chatEmail || user?.id || "guest@gmarket.com").trim();
+    setChatLoading(true);
+
+    try {
+      let chat = null;
+
+      // 没有对话ID：先创建对话
+      if (!chatId) {
+        chat = await createCustomerChat(customer, text);
+      } else {
+        // 已有对话ID：正常发送消息
+        const res = await fetch(`${API_BASE}/api/chats/${chatId}/messages`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ from: "customer", text }),
+        });
+
+        // 后台重启 / 对话丢失时会 404；自动重新创建对话，不再卡住
+        if (res.status === 404) {
+          chat = await createCustomerChat(customer, text);
+        } else if (!res.ok) {
+          throw new Error("send message failed");
+        } else {
+          chat = await res.json();
+          setChatMessages(chat.messages || []);
+        }
+      }
+
+      setChatText("");
+
+      // 后台有延迟自动回复，稍后自动刷新一次，保证前台能看到客服回复
+      setTimeout(() => {
+        loadCustomerChat(chat?.id || chatId);
+      }, 1300);
+    } catch (err) {
+      show(t.customerChatError || "连接客服失败，请确认后台已启动");
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!chatOpen || !chatId) return;
+    loadCustomerChat(chatId);
+    const timer = setInterval(() => loadCustomerChat(chatId), 2000);
+    return () => clearInterval(timer);
+  }, [chatOpen, chatId]);
 
   const money = (value) => {
-    if (currency === "KRW") return `₩${Math.round(value * 170).toLocaleString()}`;
-    if (currency === "USD") return `$${(value / 7.8).toFixed(2)}`;
-    return `HK$${value.toLocaleString()}`;
+    const krw = Number(value) || 0;
+    if (currency === "KRW") return `₩${Math.round(krw).toLocaleString()}`;
+    if (currency === "USD") return `$${(krw / 1350).toFixed(2)}`;
+    return `HK$${(krw / 173).toFixed(2)}`;
   };
 
   const filtered = useMemo(() => {
@@ -918,7 +1020,13 @@ const openLineService = () => {
   const showHeader = !["detail", "cart", "orders", "wishlist", "service", "map", "find"].includes(page);
 
   const hotProducts = [...allProducts].sort((a, b) => b.sales - a.sales).slice(0, 20);
-  const dealProducts = allProducts.filter((p) => p.price < 70).slice(0, 24);
+  const dealProducts = [...allProducts]
+    .sort(
+      (a, b) =>
+        (b.oldPrice - b.price) / b.oldPrice -
+        (a.oldPrice - a.price) / a.oldPrice
+    )
+    .slice(0, 24);
 
   return (
     <div className="gm-page" style={s.page}>
@@ -942,6 +1050,21 @@ const openLineService = () => {
             setLoginModalOpen(false);
             setPage("register");
           }}
+        />
+      )}
+
+      {chatOpen && (
+        <CustomerChatWidget
+          t={t}
+          chatId={chatId}
+          chatEmail={chatEmail}
+          setChatEmail={setChatEmail}
+          chatMessages={chatMessages}
+          chatText={chatText}
+          setChatText={setChatText}
+          chatLoading={chatLoading}
+          sendCustomerMessage={sendCustomerMessage}
+          close={() => setChatOpen(false)}
         />
       )}
 
@@ -1429,6 +1552,69 @@ function FindIdPage({ t, show, setPage, registeredEmails }) {
   );
 }
 
+
+function CustomerChatWidget({
+  t,
+  chatId,
+  chatEmail,
+  setChatEmail,
+  chatMessages,
+  chatText,
+  setChatText,
+  chatLoading,
+  sendCustomerMessage,
+  close,
+}) {
+  return (
+    <div style={s.customerChatOverlay}>
+      <div style={s.customerChatBox}>
+        <div style={s.customerChatHeader}>
+          <b>{t.customerChat || t.service}</b>
+          <button style={s.customerChatClose} onClick={close}>×</button>
+        </div>
+
+        <div style={s.customerChatBody}>
+          {!chatId && (
+            <input
+              style={s.customerChatEmail}
+              placeholder={t.customerEmailInput || "请输入邮箱，方便客服回复"}
+              value={chatEmail}
+              onChange={(e) => setChatEmail(e.target.value)}
+            />
+          )}
+
+          {chatMessages.length === 0 ? (
+            <div style={s.customerChatTip}>{t.customerChatWelcome || "您好，请问需要帮您查询什么？"}</div>
+          ) : (
+            chatMessages.map((msg, index) => (
+              <div
+                key={index}
+                style={msg.from === "customer" ? s.customerBubbleMine : s.customerBubbleSeller}
+              >
+                <div>{msg.text}</div>
+                <small style={s.customerBubbleTime}>{msg.time}</small>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div style={s.customerChatInputRow}>
+          <input
+            style={s.customerChatInput}
+            placeholder={t.customerMessageInput || "请输入您的问题"}
+            value={chatText}
+            onChange={(e) => setChatText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendCustomerMessage()}
+          />
+          <button style={s.customerChatSend} disabled={chatLoading} onClick={sendCustomerMessage}>
+            {chatLoading ? "..." : (chatId ? (t.customerSend || "发送") : (t.customerStartChat || "开始咨询"))}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LoginModal({ t, loginId, setLoginId, loginPw, setLoginPw, submitLogin, close, goFind, goRegister }) {
   const safeIdName = useMemo(() => `no-save-user-1777456405887`, []);
   const safePwName = useMemo(() => `no-save-pass-1777456405887`, []);
@@ -1859,8 +2045,18 @@ function Product({ p, t, money, onDetail, onCart, onWish, rank, big }) {
   return (
     <div className="gm-card" style={big ? s.bigCard : s.card}>
       {rank && <div style={s.rankNo}>{rank}</div>}
-      <img className={big ? "gm-big-img" : "gm-img"} src={p.image} alt={p.name} style={big ? s.bigImg : s.img} onClick={onDetail} />
-      <h3>{p.name}</h3>
+
+      <div style={s.productImageBox} onClick={onDetail}>
+        <img
+          className={big ? "gm-big-img" : "gm-img"}
+          src={p.image}
+          alt={p.name}
+          style={big ? s.bigImg : s.img}
+          loading="lazy"
+        />
+      </div>
+
+      <h3 style={s.productName}>{p.name}</h3>
       <p style={s.desc}>{p.desc}</p>
       <div>
         <span style={s.price}>{money(p.price)}</span>
@@ -1943,6 +2139,66 @@ const s = {
   toast: {
     position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)",
     background: "#111", color: "#fff", padding: "12px 22px", borderRadius: 20, zIndex: 999,
+  },
+
+  productImageBox: {
+    width: "100%",
+    height: 190,
+    background: "#f7f7f7",
+    border: "1px solid #eee",
+    overflow: "hidden",
+    cursor: "pointer",
+  },
+  productName: {
+    fontSize: 18,
+    fontWeight: 700,
+    margin: "14px 0 8px",
+    lineHeight: 1.25,
+    minHeight: 44,
+  },
+  customerChatOverlay: {
+    position: "fixed", right: 24, bottom: 24, zIndex: 1000,
+  },
+  customerChatBox: {
+    width: 360, maxWidth: "calc(100vw - 32px)", height: 520, maxHeight: "calc(100vh - 48px)",
+    background: "#fff", borderRadius: 16, boxShadow: "0 16px 50px rgba(0,0,0,.22)", overflow: "hidden",
+    display: "flex", flexDirection: "column", border: "1px solid #dbe7f5",
+  },
+  customerChatHeader: {
+    height: 52, background: "#0877e8", color: "#fff", padding: "0 16px",
+    display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 16,
+  },
+  customerChatClose: {
+    border: 0, background: "transparent", color: "#fff", fontSize: 24, cursor: "pointer",
+  },
+  customerChatBody: {
+    flex: 1, background: "#f6f8fb", padding: 14, overflowY: "auto",
+  },
+  customerChatEmail: {
+    width: "100%", height: 38, border: "1px solid #cfd8e3", borderRadius: 8, padding: "0 10px", marginBottom: 10,
+  },
+  customerChatTip: {
+    background: "#fff", border: "1px solid #e5eaf2", color: "#555", padding: 12, borderRadius: 12,
+  },
+  customerBubbleMine: {
+    maxWidth: "82%", marginLeft: "auto", marginBottom: 10, background: "#0877e8", color: "#fff",
+    padding: "10px 12px", borderRadius: "14px 14px 4px 14px", lineHeight: 1.45,
+  },
+  customerBubbleSeller: {
+    maxWidth: "82%", marginRight: "auto", marginBottom: 10, background: "#fff", color: "#222",
+    padding: "10px 12px", borderRadius: "14px 14px 14px 4px", border: "1px solid #e5eaf2", lineHeight: 1.45,
+  },
+  customerBubbleTime: {
+    display: "block", opacity: .72, fontSize: 11, marginTop: 4,
+  },
+  customerChatInputRow: {
+    display: "grid", gridTemplateColumns: "1fr 96px", gap: 8, padding: 12, borderTop: "1px solid #e5eaf2", background: "#fff",
+  },
+  customerChatInput: {
+    height: 40, border: "1px solid #cfd8e3", borderRadius: 8, padding: "0 10px",
+  },
+  customerChatSend: {
+    height: 40, border: 0, borderRadius: 8, background: "#0877e8", color: "#fff", fontWeight: "bold", cursor: "pointer",
   },
   loginOverlay: {
     position: "fixed", inset: 0, background: "rgba(0,0,0,.45)", zIndex: 998,
